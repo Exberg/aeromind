@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Radar, Clock, Wifi } from "lucide-react";
+import {
+  Radar,
+  Clock,
+  Wifi,
+  LineChart,
+  AlertCircle,
+  Scale,
+  SlidersHorizontal,
+  Edit3,
+  Save,
+  FileCheck,
+  Lock,
+  ShieldCheck,
+} from "lucide-react";
 import { Flight, ChatMessage, ChatSessionMap } from "../aeromindTypes";
-import { INITIAL_FLIGHTS, INITIAL_CHAT_SESSIONS } from "../aeromindConstants";
+import {
+  INITIAL_FLIGHTS,
+  INITIAL_CHAT_SESSIONS,
+  CONE_POINTS,
+  DEFAULT_WEIGHTS,
+  THEME,
+} from "../aeromindConstants";
 import { FlightCard } from "./FlightCard";
 import { RevenueChart } from "./RevenueChart";
 import { ChatInterface } from "./ChatInterface";
@@ -14,6 +33,13 @@ const AeromindPage: React.FC = () => {
   );
   const [currentTime, setCurrentTime] = useState(new Date());
   const [totalRevenue, setTotalRevenue] = useState(145000);
+  const [hoursToDeparture, setHoursToDeparture] = useState(18);
+  const [manualEstimate] = useState(DEFAULT_WEIGHTS.manual);
+  const [aiEstimate] = useState(DEFAULT_WEIGHTS.ai);
+  const [overrideBuffer, setOverrideBuffer] = useState(300);
+  const [overrideReason, setOverrideReason] = useState("");
+  const [overrideNote, setOverrideNote] = useState<string | null>(null);
+  const [isLoadSheetLocked, setIsLoadSheetLocked] = useState(false);
 
   // Time ticker
   useEffect(() => {
@@ -175,6 +201,83 @@ const AeromindPage: React.FC = () => {
     }, 1000);
   };
 
+  const sortedConePoints = [...CONE_POINTS].sort((a, b) => b.hours - a.hours);
+  const clampHours = Math.min(Math.max(hoursToDeparture, 0), 24);
+
+  const getConeSnapshot = (targetHours: number) => {
+    if (targetHours >= sortedConePoints[0].hours) return sortedConePoints[0];
+    if (targetHours <= sortedConePoints[sortedConePoints.length - 1].hours)
+      return sortedConePoints[sortedConePoints.length - 1];
+
+    const idx = sortedConePoints.findIndex(
+      (p, i) =>
+        sortedConePoints[i + 1] &&
+        p.hours >= targetHours &&
+        sortedConePoints[i + 1].hours <= targetHours
+    );
+
+    const upper = sortedConePoints[idx];
+    const lower = sortedConePoints[idx + 1];
+    const ratio = (upper.hours - targetHours) / (upper.hours - lower.hours);
+
+    return {
+      hours: targetHours,
+      lower: upper.lower + (lower.lower - upper.lower) * ratio,
+      upper: upper.upper + (lower.upper - upper.upper) * ratio,
+    };
+  };
+
+  const coneSnapshot = getConeSnapshot(clampHours);
+  const coneWidth = Math.round(coneSnapshot.upper - coneSnapshot.lower);
+  const confidenceLevel =
+    coneWidth > 2000 ? "LOW" : coneWidth > 1400 ? "MEDIUM" : "HIGH";
+  const recommendedWait =
+    confidenceLevel === "LOW" ? 2 : confidenceLevel === "MEDIUM" ? 1 : 0;
+
+  const minWeight = Math.min(...sortedConePoints.map((p) => p.lower));
+  const maxWeight = Math.max(...sortedConePoints.map((p) => p.upper));
+  const weightSpan = maxWeight - minWeight || 1;
+
+  const polygonPoints = [
+    ...sortedConePoints.map((p) => {
+      const x = ((24 - p.hours) / 24) * 100;
+      const y = 100 - ((p.upper - minWeight) / weightSpan) * 100;
+      return `${x},${y}`;
+    }),
+    ...[...sortedConePoints].reverse().map((p) => {
+      const x = ((24 - p.hours) / 24) * 100;
+      const y = 100 - ((p.lower - minWeight) / weightSpan) * 100;
+      return `${x},${y}`;
+    }),
+  ].join(" ");
+
+  const midLinePoints = sortedConePoints
+    .map((p) => {
+      const x = ((24 - p.hours) / 24) * 100;
+      const mid = (p.lower + p.upper) / 2;
+      const y = 100 - ((mid - minWeight) / weightSpan) * 100;
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  const nowXPercent = ((24 - clampHours) / 24) * 100;
+  const adjustedAi = aiEstimate + overrideBuffer;
+  const delta = adjustedAi - manualEstimate;
+  const deltaPct = (delta / manualEstimate) * 100;
+
+  const formatKg = (value: number) => `${Math.round(value).toLocaleString()}kg`;
+
+  const handleApplyOverride = () => {
+    if (!overrideReason) return;
+    setOverrideNote(
+      `Override saved: +${overrideBuffer}kg buffer (${overrideReason}).`
+    );
+  };
+
+  const handleFinalizeLoadSheet = () => {
+    setIsLoadSheetLocked(true);
+  };
+
   const currentMessages = selectedFlightId
     ? chatSessions[selectedFlightId] || []
     : [];
@@ -195,7 +298,7 @@ const AeromindPage: React.FC = () => {
       {/* TOP HUD HEADER */}
       <header className="relative z-10 h-16 border-b border-zinc-800 bg-zinc-950/95 flex items-center justify-between px-6 shrink-0">
         <div className="flex items-center gap-4">
-          <div className="w-8 h-8 rounded-sm bg-zinc-100 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-sm bg-orange-500 flex items-center justify-center">
             <Radar className="w-5 h-5 text-black" />
           </div>
           <div>
@@ -223,7 +326,7 @@ const AeromindPage: React.FC = () => {
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
               Revenue Recovered
             </span>
-            <span className="font-display text-2xl font-bold text-white tabular-nums">
+            <span className="font-display text-2xl font-bold text-orange-500 tabular-nums">
               ${totalRevenue.toLocaleString()}
             </span>
           </div>
@@ -251,7 +354,7 @@ const AeromindPage: React.FC = () => {
                   key={tab}
                   className={`px-4 py-1 text-xs font-mono border transition-all ${
                     i === 0
-                      ? "bg-white border-white text-black font-bold"
+                      ? "bg-orange-500 border-orange-500 text-black font-bold"
                       : "border-zinc-800 text-zinc-500 hover:border-zinc-600 bg-transparent"
                   }`}
                 >

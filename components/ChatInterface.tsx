@@ -45,15 +45,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {/* Header */}
       <div className="h-12 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-4 shrink-0 z-10">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-6 h-6 bg-zinc-100 rounded-sm">
+          <div className="flex items-center justify-center w-6 h-6 bg-orange-500 rounded-sm">
             <Bot className="w-4 h-4 text-black" />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="font-display font-bold text-sm text-white tracking-wider">
+              <span className="font-display font-bold text-sm text-orange-500 tracking-wider">
                 {selectedFlight ? selectedFlight.code : "SELECT FLIGHT"}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
             </div>
             <span className="font-mono text-[9px] text-zinc-500 tracking-widest uppercase">
               {selectedFlight ? "LINK ESTABLISHED" : "STANDBY"}
@@ -97,7 +97,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             {/* Sender Label */}
             <div className="flex items-center gap-2 mb-1 opacity-50">
               {msg.sender === "ai" ? (
-                <Bot className="w-3 h-3 text-white" />
+                <Bot className="w-3 h-3 text-orange-500" />
               ) : (
                 <User className="w-3 h-3 text-zinc-400" />
               )}
@@ -132,13 +132,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                       {/* Card Header */}
                       <div className="bg-zinc-900 border-b border-zinc-800 p-2 flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                          <Sparkles className="w-3 h-3 text-white" />
+                          <Sparkles className="w-3 h-3 text-orange-500" />
                           <span className="font-mono text-[10px] text-white font-bold uppercase tracking-wider">
                             {msg.meta?.title || "INSIGHT DETECTED"}
                           </span>
                         </div>
                         {msg.meta?.profit && (
-                          <span className="font-mono text-[10px] text-black bg-white px-2 py-0.5 font-bold">
+                          <span className="font-mono text-[10px] text-black bg-orange-500 px-2 py-0.5 font-bold">
                             {msg.meta.profit}
                           </span>
                         )}
@@ -161,7 +161,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                                 }
                                 className={`group relative flex items-center justify-between px-3 py-2 text-xs font-mono uppercase tracking-wide transition-all border ${
                                   action.type === "primary"
-                                    ? "bg-white border-white text-black hover:bg-zinc-200"
+                                    ? "bg-orange-500 border-orange-500 text-black hover:bg-orange-400"
                                     : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white"
                                 }`}
                               >
@@ -214,7 +214,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 ? `Message Agent (${selectedFlight.code})...`
                 : "Select a flight..."
             }
-            className="w-full bg-zinc-950 border border-zinc-700 text-white text-xs font-mono p-3 pr-10 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all placeholder:text-zinc-600 rounded-sm"
+            className="w-full bg-zinc-950 border border-zinc-700 text-white text-xs font-mono p-3 pr-10 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-zinc-600 rounded-sm"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
             {!inputValue && (

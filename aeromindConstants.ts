@@ -1,5 +1,29 @@
 import { Flight, LogEntry, ChatSessionMap } from './aeromindTypes';
 
+export const THEME = {
+  accent: "orange-500",
+  accentHex: "#f97316",
+  accentClass: "text-orange-500",
+  accentBgClass: "bg-orange-500",
+  accentBorderClass: "border-orange-500",
+};
+
+export const DEFAULT_WEIGHTS = {
+  manual: 18500,
+  ai: 16200,
+};
+
+export const CONE_POINTS = [
+  { hours: 24, lower: 15000, upper: 21500 },
+  { hours: 18, lower: 15500, upper: 20500 },
+  { hours: 12, lower: 15800, upper: 19800 },
+  { hours: 8, lower: 16000, upper: 19000 },
+  { hours: 4, lower: 16150, upper: 17800 },
+  { hours: 2, lower: 16200, upper: 17200 },
+  { hours: 1, lower: 16200, upper: 16850 },
+  { hours: 0, lower: 16200, upper: 16550 },
+];
+
 export const INITIAL_FLIGHTS: Flight[] = [
   {
     id: '1',

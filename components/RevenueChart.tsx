@@ -26,7 +26,7 @@ export const RevenueChart: React.FC = () => {
   return (
     <div className="h-40 w-full relative group bg-zinc-950">
       <div className="absolute top-2 right-2 flex items-center gap-2 z-10">
-        <div className="w-2 h-2 bg-white animate-pulse"></div>
+        <div className="w-2 h-2 bg-orange-500 animate-pulse"></div>
         <span className="font-mono text-[10px] text-white uppercase tracking-wider">
           Live Revenue
         </span>
@@ -36,8 +36,8 @@ export const RevenueChart: React.FC = () => {
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorVal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#ffffff" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+              <stop offset="5%" stopColor="#f97316" stopOpacity={0.2} />
+              <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis dataKey="time" hide />
@@ -55,7 +55,7 @@ export const RevenueChart: React.FC = () => {
           <Area
             type="step"
             dataKey="val"
-            stroke="#ffffff"
+            stroke="#f97316"
             strokeWidth={1}
             fillOpacity={1}
             fill="url(#colorVal)"

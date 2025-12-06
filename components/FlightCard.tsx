@@ -31,34 +31,34 @@ export const FlightCard: React.FC<FlightCardProps> = ({
       onClick={onClick}
       className={`relative p-5 bg-zinc-900 border transition-all duration-300 group cursor-pointer ${
         isSelected
-          ? "border-white bg-zinc-900 shadow-[0_4px_20px_rgba(255,255,255,0.05)]"
+          ? "border-orange-500 bg-zinc-900 shadow-[0_4px_20px_rgba(249,115,22,0.1)]"
           : "border-zinc-800 hover:border-zinc-600"
       }`}
     >
       {/* Active Indicator Strip */}
       {isSelected && (
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-white"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
       )}
 
       {/* Decorative Corner Brackets (Monochrome) */}
       <div
         className={`absolute top-0 left-0 w-2 h-2 border-t border-l transition-colors ${
-          isSelected ? "border-white" : "border-zinc-700"
+          isSelected ? "border-orange-500" : "border-zinc-700"
         }`}
       ></div>
       <div
         className={`absolute top-0 right-0 w-2 h-2 border-t border-r transition-colors ${
-          isSelected ? "border-white" : "border-zinc-700"
+          isSelected ? "border-orange-500" : "border-zinc-700"
         }`}
       ></div>
       <div
         className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l transition-colors ${
-          isSelected ? "border-white" : "border-zinc-700"
+          isSelected ? "border-orange-500" : "border-zinc-700"
         }`}
       ></div>
       <div
         className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r transition-colors ${
-          isSelected ? "border-white" : "border-zinc-700"
+          isSelected ? "border-orange-500" : "border-zinc-700"
         }`}
       ></div>
 
@@ -67,18 +67,18 @@ export const FlightCard: React.FC<FlightCardProps> = ({
           <div className="flex items-center gap-2 mb-1">
             <Plane
               className={`w-4 h-4 ${
-                flight.status === "IN-AIR" ? "text-white" : "text-zinc-500"
+                flight.status === "IN-AIR" ? "text-orange-500" : "text-zinc-500"
               }`}
             />
             <h3
               className={`text-xl font-display font-bold tracking-wide transition-colors ${
-                isSelected ? "text-white" : "text-zinc-200"
+                isSelected ? "text-orange-500" : "text-zinc-200"
               }`}
             >
               {flight.code}
             </h3>
             {isSelected && (
-              <Activity className="w-3 h-3 text-white ml-2 animate-pulse" />
+              <Activity className="w-3 h-3 text-orange-500 ml-2 animate-pulse" />
             )}
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
@@ -92,7 +92,7 @@ export const FlightCard: React.FC<FlightCardProps> = ({
         <div
           className={`px-2 py-1 text-[10px] font-mono font-bold border rounded-sm tracking-widest ${
             flight.status === "IN-AIR"
-              ? "border-white text-white bg-zinc-800"
+              ? "border-orange-500 text-orange-500 bg-zinc-800"
               : flight.status === "DELAYED"
               ? "border-zinc-600 text-zinc-400 border-dashed"
               : "border-zinc-700 text-zinc-500"
@@ -122,7 +122,7 @@ export const FlightCard: React.FC<FlightCardProps> = ({
           {/* Ghost (Opportunity) - PURE WHITE */}
           <div
             style={{ width: `${ghostPct}%` }}
-            className="h-full bg-white border-r border-zinc-950 relative flex items-center justify-center overflow-hidden"
+            className="h-full bg-orange-500 border-r border-zinc-950 relative flex items-center justify-center overflow-hidden"
           >
             <span className="text-[9px] font-bold text-black z-10 whitespace-nowrap px-1">
               GHOST
@@ -153,10 +153,10 @@ export const FlightCard: React.FC<FlightCardProps> = ({
             <span className="text-sm font-mono text-zinc-400">{booked}kg</span>
           </div>
           <div className="flex flex-col border-l border-zinc-800 pl-2">
-            <span className="text-[9px] font-mono text-white flex items-center gap-1 font-bold">
+            <span className="text-[9px] font-mono text-orange-500 flex items-center gap-1 font-bold">
               <Package className="w-3 h-3" /> GHOST
             </span>
-            <span className="text-sm font-mono text-white font-bold">
+            <span className="text-sm font-mono text-orange-500 font-bold">
               {ghost}kg
             </span>
           </div>

@@ -10,6 +10,7 @@ import {
   ShieldAlert,
   Radar,
 } from "lucide-react";
+import { THEME } from "../aeromindConstants";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -43,12 +44,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Top Logo Area */}
       <div className="h-16 border-b border-white/20 flex items-center justify-center relative overflow-hidden">
         {isCollapsed ? (
-          <ShieldAlert className="text-white" size={24} />
+          <ShieldAlert className="text-orange-500" size={24} />
         ) : (
           <div className="flex items-center gap-2 px-4 w-full">
-            <ShieldAlert className="text-white shrink-0" size={24} />
+            <ShieldAlert className="text-orange-500 shrink-0" size={24} />
             <span className="font-bold tracking-widest text-lg whitespace-nowrap">
-              AERO_LOAD
+              AeroMind
             </span>
           </div>
         )}
@@ -66,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 flex items-center gap-4 px-4 py-3 mx-2 transition-all duration-200 group relative
                 ${
                   isActive
-                    ? "bg-white text-black font-bold"
+                    ? "bg-orange-500 text-black font-bold"
                     : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                 }
               `}
@@ -85,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
               {/* Active Indicator Line for Collapsed Mode */}
               {isActive && isCollapsed && (
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-white" />
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500" />
               )}
             </button>
           );
