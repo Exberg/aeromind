@@ -1,0 +1,5 @@
+{
+  "name": "AeroLoad: A400M Cargo Optimizer",
+  "description": "Sophisticated cargo load planning tool with automated CG balancing and 3D volume distribution logic.",
+  "requestFramePermissions": []
+}
