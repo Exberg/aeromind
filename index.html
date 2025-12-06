@@ -61,6 +61,17 @@
       }
       .hud-corner::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
       .hud-corner::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+      .stamp-in {
+        animation: stamp-in 0.6s ease forwards;
+        letter-spacing: 0.2em;
+      }
+
+      @keyframes stamp-in {
+        0% { transform: scale(0.8) rotate(-6deg); opacity: 0; }
+        60% { transform: scale(1.05) rotate(-2deg); opacity: 1; }
+        100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+      }
     </style>
   <script type="importmap">
 {
